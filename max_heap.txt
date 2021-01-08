@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 20
+void swap(int *l,int *r){
+    int temp;
+    temp=*l;
+    *l=*r;
+    *r=temp;
+}
+void max_heapify(int array[], int index, int heapSize){
+  int left,right,max=index;
+    left=2*index+1;                                         //left child
+    right=2*index+2;                                        //right child
+    if((left<=heapSize)&&(array[left]>array[index]))
+        max=left;
+    
+    if((right<=heapSize)&&(array[right]>array[max]))
+        max=right;
+    if(max!=index)
+    {
+ swap(&array[index],&array[max]);
+    max_heapify(array,max,heapSize);}
+}
+
+int* build_max_heap(int array[], int arraySize){
+    int j;
+    for (j = arraySize/2; j >= 0; j--) {
+        max_heapify(array, j, arraySize);
+    }
+    return array;
+}
+
+void display(int *max_heap, int arraySize){
+	int counter;
+    for (counter = 0; counter < arraySize; counter++) {
+        printf("%d ", max_heap[counter]);
+    }
+}
+
+int main(){
+    int index, arraySize;
+	int *array = calloc(MAX, sizeof(int));
+    int *max_heap = calloc(MAX, sizeof(int));
+    
+    scanf("%d", &arraySize);
+    
+    for (index = 0; index < arraySize; index++) {
+        scanf("%d", &array[index]);
+    }
+    max_heap = build_max_heap(array, arraySize);
+    display(max_heap, arraySize);
+}
